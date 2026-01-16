@@ -1,0 +1,61 @@
+:root {
+    --light-text: black;
+    --light-background: white;
+    --light-bar: #c1d5d9;
+
+    --dark-text: white;
+    --dark-background: #080a14;
+    --dark-bar: #1c2035;
+    --dark-button: #2a2e41;
+
+    --text:var(--dark-text);
+    --background: var(--dark-background);
+    --bar: var(--dark-bar);
+    --button: var(--dark-button);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--text);
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    width: 100svw;
+    background-color: var(--background);
+}
+
+#headerBar {
+    display: flex;
+    height: 10svh;
+}
+
+#content {
+    display: flex;
+    height: 75svh;
+}
+
+#navBarWrapper{
+    display: flex;
+    height: 15svh;
+    
+    #navBar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+        flex-direction: row;
+        background-color: var(--bar);
+        margin: 1.5rem;
+        border-radius: 3rem;
+        
+        .navItem{
+            display: flex;
+            padding: 2rem;;
+            background-color: var(--button);
+        }
+    }
+}
