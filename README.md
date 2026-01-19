@@ -25,16 +25,31 @@
 FrostlightMini is a hand sized RGB LED lamp based on a custom PCB with an ESP32-C3 chip.
 It can be used as a night light, party light, or small IoT device.
 
+<p align="center">
+  <img src="images/frostlightmini-green.jpg" alt="FrostlightMini Green" width="30%" height="30%">
+</p>
+
 The project is fully open source and includes firmware, hardware design files, and documentation.
 
 ## 🔧 Hardware Features
 
-* Custom PCB
-* ESP32-C3 microcontroller with Wifi, ZigBee and Bluetooth
-* RGB LED
-* Battery powered
-* USB-C for charging and programming
-* Two physical buttons for control
+<table>
+<tr>
+    <td width="60%" valign="top">
+
+* Custom PCB  
+* ESP32-C3 microcontroller with WiFi, ZigBee and Bluetooth  
+* RGB LED  
+* Battery powered  
+* USB-C for charging and programming  
+* Two physical buttons for control  
+
+    </td>
+    <td width="40%" align="center">
+        <img src="images/frostlightmini-blue.jpg" alt="FrostlightMini Blue" width="100%">
+    </td>
+</tr>
+</table>
 
 ## 💡 Modes
 
@@ -47,6 +62,10 @@ FrostlightMini currently supports two operating modes:
   Used to increase or decrease LED brightness
 
 The lamp boots into **Color Mode** by default.
+
+<p align="left">
+  <img src="images/frostlightmini-red.jpg" alt="FrostlightMini Red" width="30%" height="30%">
+</p>
 
 ## 🎮 Controls
 
