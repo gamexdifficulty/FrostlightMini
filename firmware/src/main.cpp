@@ -20,6 +20,10 @@ extern "C" void app_main(void)
 
     Pin pins;
     Leds leds;
+    Storage storage;
+    LedConfig config;
+
+    float hue = 0.0f;
 
     uint32_t lastTime = 0;
     uint32_t deltaTime = 0;
@@ -29,18 +33,30 @@ extern "C" void app_main(void)
     bool charging = false;
     bool interaction = false;
 
-    uint8_t savedColor[3] = {255, 255, 255};
-
     uint8_t mode = 0;
     uint8_t savedMode = 0;
     uint8_t brightnessMode = 0;
 
     leds.clear();
-    leds.setBrightness(255);
-    leds.setColor(0,255,255,255);
-    leds.setColor(1,255,255,255);
-    leds.setColor(2,255,255,255);
-    leds.setColor(3,255,255,255);
+
+    if (!storage.loadLedConfig(config)) {
+        leds.setBrightness(255);
+        leds.setColor(0,255,255,255);
+        leds.setColor(1,255,255,255);
+        leds.setColor(2,255,255,255);
+        leds.setColor(3,255,255,255);
+    } else {
+        leds.setBrightness(config.brightness);
+
+        for (int i = 0; i<4; i++) {
+            leds.setColor(i,config.r,config.g,config.b);
+        }
+        float h, s, v;
+        leds.rgbToHsv(config.r, config.g, config.b,h,s,v);
+        hue = h/360.0f;
+    }
+
+    uint8_t savedColor[3] = {leds.getLedColor(0)[0],leds.getLedColor(0)[1],leds.getLedColor(0)[2]};
     leds.update(0);
 
     while (true) {
@@ -75,11 +91,14 @@ extern "C" void app_main(void)
             if (pins.getButton2Released() && pins.getButton2HeldTimer() < SHORT_PRESS) { 
                 if (leds.getLedColor(0)[0] != 255 || leds.getLedColor(0)[1] != 255 || leds.getLedColor(0)[2] != 255) { // set to white
                     leds.startFadeToColor(255,255,255);
+                    config.r = 255;
+                    config.g = 255;
+                    config.b = 255;
+                    config.brightness = leds.getBrightness();
+                    storage.saveLedConfig(config);
                 }
             }
             if (pins.getButton2Pressed() && pins.getButton2HeldTimer() >= SHORT_PRESS) { // change color
-                static float hue = 0.0f;
-                
                 if (leds.getLedColor(0)[0] == 255 && leds.getLedColor(0)[1] == 255 && leds.getLedColor(0)[2] == 255 && leds.getEffectCount() == 0) { // reset from white to red
                     leds.startFadeToColor(255,0,0);
                     hue = 0.0f;
@@ -91,6 +110,12 @@ extern "C" void app_main(void)
                     
                     uint8_t r, g, b;
                     leds.hsvToRgb(hue, 1.0f, 1.0f, r, g, b);
+                    config.r = r;
+                    config.g = g;
+                    config.b = b;
+                    config.brightness = leds.getBrightness();
+                    storage.saveLedConfig(config);
+
                     for (int i = 0; i < 4; i++) {
                         leds.setColor(i, r, g, b);
                     }
@@ -108,12 +133,17 @@ extern "C" void app_main(void)
                 uint8_t brightness = leds.getBrightness();
                 if (brightnessMode == 0) { leds.setBrightness(std::max<uint8_t>(2,brightness - 1)); }     // brightness down
                 if (brightnessMode == 1) { leds.setBrightness(std::min<uint8_t>(254,brightness + 1)); }   // brightness up
+
+                config.r = leds.getLedColor(0)[0];
+                config.g = leds.getLedColor(0)[1];
+                config.b = leds.getLedColor(0)[2];
+                config.brightness = leds.getBrightness();
+                storage.saveLedConfig(config);
             }
         }
 
         if (mode == 2) { // charge
             if (leds.getEffectCount() == 0) { leds.startBreathEffect(); }
-            ESP_LOGI("Frostlight", "%d", pins.getBatteryPercentage());
             if (!pins.isCharging() && charging && pins.getBatteryPercentage() >= 85) {
                 mode = 3;
                 leds.startFadeToColor(0,0,255);
