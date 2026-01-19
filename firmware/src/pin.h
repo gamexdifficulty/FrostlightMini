@@ -9,6 +9,8 @@ private:
     bool button2Pressed = false;
     bool button1Released = false;
     bool button2Released = false;
+    bool button1Initialized = false;
+    bool button2Initialized = false;
     uint32_t button1HeldTimer = 0;
     uint32_t button2HeldTimer = 0;
     uint32_t button1HeldStartTimer = 0;
@@ -22,10 +24,10 @@ public:
     bool isCharging();
     int getBatteryPercentage();
 
-    bool isButton1Pressed();
-    bool isButton2Pressed();
-    bool isButton1Released();
-    bool isButton2Released();
+    bool getButton1Pressed();
+    bool getButton2Pressed();
+    bool getButton1Released();
+    bool getButton2Released();
 
     uint32_t getButton1HeldTimer();
     uint32_t getButton2HeldTimer();

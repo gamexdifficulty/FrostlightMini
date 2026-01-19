@@ -67,11 +67,19 @@ void Pin::update(uint32_t timer) {
     bool btn1Now = (gpio_get_level(BUTTON1GPIO) == 0);
     bool btn2Now = (gpio_get_level(BUTTON2GPIO) == 0);
 
-    button1Released = (button1Pressed && !btn1Now);
-    button2Released = (button2Pressed && !btn2Now);
+    if (!button1Initialized) {
+        button1Initialized = !btn1Now;
+    } else {
+        button1Released = (button1Pressed && !btn1Now);
+        button1Pressed = btn1Now;
+    }
 
-    button1Pressed = btn1Now;
-    button2Pressed = btn2Now;
+    if (!button2Initialized) {
+        button2Initialized = !btn2Now;
+    } else {
+        button2Released = (button2Pressed && !btn2Now);
+        button2Pressed = btn2Now;
+    }
 
     if (button1Pressed && button1HeldStartTimer == 0) { button1HeldStartTimer = timer; }
     if (button2Pressed && button2HeldStartTimer == 0) { button2HeldStartTimer = timer; }
@@ -90,10 +98,10 @@ void Pin::update(uint32_t timer) {
     }
 }
 
-bool Pin::isButton1Pressed() { return button1Pressed; }
-bool Pin::isButton2Pressed() { return button2Pressed; }
-bool Pin::isButton1Released() { return button1Released; }
-bool Pin::isButton2Released() { return button2Released; }
+bool Pin::getButton1Pressed() { return button1Pressed; }
+bool Pin::getButton2Pressed() { return button2Pressed; }
+bool Pin::getButton1Released() { return button1Released; }
+bool Pin::getButton2Released() { return button2Released; }
 
 uint32_t Pin::getButton1HeldTimer() { return button1HeldTimer; }
 uint32_t Pin::getButton2HeldTimer() { return button2HeldTimer; }
