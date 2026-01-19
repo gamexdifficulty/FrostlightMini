@@ -80,20 +80,20 @@ extern "C" void app_main(void)
             if (pins.getButton2Pressed() && pins.getButton2HeldTimer() >= SHORT_PRESS) { // change color
                 static float hue = 0.0f;
                 
-                if (leds.getLedColor(0)[0] == 255 && leds.getLedColor(0)[1] == 255 && leds.getLedColor(0)[2] == 255) { // reset from white to red
-                    for (int i = 0; i < 4; i++) {
-                        leds.setColor(i, 255, 0, 0);
-                    }
+                if (leds.getLedColor(0)[0] == 255 && leds.getLedColor(0)[1] == 255 && leds.getLedColor(0)[2] == 255 && leds.getEffectCount() == 0) { // reset from white to red
+                    leds.startFadeToColor(255,0,0);
                     hue = 0.0f;
                 }
                 
-                hue += 0.0025f; // cycle color
-                if (hue >= 1.0f) hue -= 1.0f;
-                
-                uint8_t r, g, b;
-                leds.hsvToRgb(hue, 1.0f, 1.0f, r, g, b);
-                for (int i = 0; i < 4; i++) {
-                    leds.setColor(i, r, g, b);
+                if (leds.getEffectCount() == 0) {
+                    hue += 0.0025f; // cycle color
+                    if (hue >= 1.0f) hue -= 1.0f;
+                    
+                    uint8_t r, g, b;
+                    leds.hsvToRgb(hue, 1.0f, 1.0f, r, g, b);
+                    for (int i = 0; i < 4; i++) {
+                        leds.setColor(i, r, g, b);
+                    }
                 }
             }
 
