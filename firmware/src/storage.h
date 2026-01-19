@@ -1,16 +1,23 @@
-#ifndef _STORAGE_H_
-#define _STORAGE_H_
-
+#pragma once
 #include <stdint.h>
+
+struct LedConfig {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t brightness;
+};
 
 class Storage {
 public:
     Storage();
     ~Storage();
+
     bool isReady() const;
-    void logBattery(uint32_t time_ms, bool charging, float voltage);
+
+    bool saveLedConfig(const LedConfig &config);
+    bool loadLedConfig(LedConfig &config);
+
 private:
     bool mounted;
 };
-
-#endif
