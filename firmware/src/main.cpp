@@ -15,7 +15,7 @@ static const uint16_t SHORT_PRESS = 350;
 
 extern "C" void app_main(void)
 {
-    const char* firmwareVersion = "0.1.0";
+    const char* firmwareVersion = "0.2.0";
     ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
 
     Pin pins;
