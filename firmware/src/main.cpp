@@ -41,16 +41,18 @@ extern "C" void app_main(void)
 
     if (!storage.loadLedConfig(config)) {
         leds.setBrightness(255);
-        leds.setColor(0,255,255,255);
-        leds.setColor(1,255,255,255);
-        leds.setColor(2,255,255,255);
-        leds.setColor(3,255,255,255);
+        leds.setColor(0,0,0,0);
+        leds.setColor(1,0,0,0);
+        leds.setColor(2,0,0,0);
+        leds.setColor(3,0,0,0);
+        leds.startFadeToColor(255,255,255);
     } else {
         leds.setBrightness(config.brightness);
-
-        for (int i = 0; i<4; i++) {
-            leds.setColor(i,config.r,config.g,config.b);
-        }
+        leds.setColor(0,0,0,0);
+        leds.setColor(1,0,0,0);
+        leds.setColor(2,0,0,0);
+        leds.setColor(3,0,0,0);
+        leds.startFadeToColor(config.r,config.g,config.b);
         float h, s, v;
         leds.rgbToHsv(config.r, config.g, config.b,h,s,v);
         hue = h/360.0f;
