@@ -145,7 +145,7 @@ extern "C" void app_main(void)
         }
 
         if (mode == 2) { // charge
-            if (leds.getEffectCount() == 0) { leds.startBreathEffect(); }
+            if (leds.getEffectCount() == 0 && shutdown == false) { leds.startBreathEffect(); }
             if (!pins.isCharging() && charging && pins.getBatteryPercentage() >= 85) {
                 mode = 3;
                 leds.startFadeToColor(0,0,255);
@@ -153,7 +153,7 @@ extern "C" void app_main(void)
         }
 
         if (mode == 3) { // fully charged
-            if (leds.getEffectCount() == 0) {
+            if (leds.getEffectCount() == 0 && shutdown == false) {
                 leds.startBreathEffect();
             }
         }
