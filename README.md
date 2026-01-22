@@ -172,6 +172,19 @@ Expect:
 
 Feedback, testing, and contributions are welcome.
 
+## 🗺️ Roadmap
+
+- [x] 0.1.0 | Basic functionality
+- [x] 0.2.0 | Storing led state
+- [ ] 0.3.0 | Serial communication
+- [ ] 0.4.0 | Serial configuration
+- [ ] 0.5.0 | Rewrite/Refactoring for better performance
+- [ ] 0.6.0 | Permanent effects
+- [ ] 0.7.0 | Desktop app
+- [ ] 0.8.0 | Wireless communication
+- [ ] 0.9.0 | Device synchronization
+- [ ] 1.0.0 | Device hosted web app
+
 ## 🤝 Contributing
 
 Contributions are appreciated.
