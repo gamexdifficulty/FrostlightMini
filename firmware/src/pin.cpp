@@ -96,6 +96,11 @@ void Pin::update(uint32_t timer) {
         button2HeldStartTimer = 0;
         button2HeldTimer = 0;
     }
+
+    if (monitorBattery && timer - batteryMonitoringTimer > 3000) {
+        ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", getADC(), getBatteryPercentage(),isCharging() ? "true" : "false");
+        batteryMonitoringTimer = timer;
+    }
 }
 
 bool Pin::getButton1Pressed() { return button1Pressed; }

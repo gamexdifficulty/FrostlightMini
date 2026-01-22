@@ -5,6 +5,7 @@
 
 class Pin {
 private:
+    bool monitorBattery = true;
     bool button1Pressed = false;
     bool button2Pressed = false;
     bool button1Released = false;
@@ -15,8 +16,11 @@ private:
     uint32_t button2HeldTimer = 0;
     uint32_t button1HeldStartTimer = 0;
     uint32_t button2HeldStartTimer = 0;
+    uint32_t batteryMonitoringTimer = 0;
+    
 public:
     Pin();
+    void setBatteryMonitoring(bool state) {monitorBattery = state;};
     void update(uint32_t timer);
     void turnOff();
 

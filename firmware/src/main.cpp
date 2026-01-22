@@ -123,8 +123,8 @@ extern "C" void app_main(void)
                     }
                 }
             }
-
         }
+        
         if (mode == 1) { // brightness up/down
             if (pins.getButton2Released() && pins.getButton2HeldTimer() < SHORT_PRESS) { 
                 brightnessMode = brightnessMode == 0 ? 1 : 0;
