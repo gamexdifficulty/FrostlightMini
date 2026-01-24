@@ -5,7 +5,7 @@
 
 class Pin {
 private:
-    bool monitorBattery = true;
+    bool monitorBattery = false;
     bool button1Pressed = false;
     bool button2Pressed = false;
     bool button1Released = false;
