@@ -4,5 +4,6 @@ idf_component_register(
         "leds.cpp"
         "pin.cpp"
         "storage.cpp"
+        "serial.cpp"
     INCLUDE_DIRS "."
 )
