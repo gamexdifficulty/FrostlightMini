@@ -8,6 +8,7 @@
 
 #include "pin.h"
 #include "leds.h"
+#include "serial.h"
 #include "storage.h"
 
 static const uint32_t LOOP_DELAY_MS = 20;
@@ -22,6 +23,7 @@ extern "C" void app_main(void)
     Leds leds;
     Storage storage;
     LedConfig config;
+    Serial serial;
 
     float hue = 0.0f;
 
@@ -67,6 +69,7 @@ extern "C" void app_main(void)
         deltaTime = now-lastTime;
         lastTime = now;
         pins.update(now);
+        serial.update();
 
         if (pins.getBatteryPercentage() <= 0) { shutdown = true; }
         if (pins.getButton1HeldTimer() >= 1000 && shutdownFlashCooldown == 0) { 
@@ -167,7 +170,14 @@ extern "C" void app_main(void)
 
             leds.startFadeToColor(0,255,0);
             mode = 2;
+        }
+
+        if(serial.read("version")) {
             ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
+        }
+
+        if(serial.read("battery")) {
+            ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false");
         }
 
         if (((!pins.isCharging() && charging) && mode == 2) || (interaction && mode > 1)) { // unplugged or interacted with
