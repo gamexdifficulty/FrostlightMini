@@ -176,6 +176,14 @@ extern "C" void app_main(void)
             ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
         }
 
+        if(serial.read("color")) {
+            ESP_LOGI("Frostlight", "Color (RGB): %d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
+        }
+
+        if(serial.read("brightness")) {
+            ESP_LOGI("Frostlight", "Brightness: %d", leds.getBrightness());
+        }
+
         if(serial.read("battery")) {
             ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false");
         }
