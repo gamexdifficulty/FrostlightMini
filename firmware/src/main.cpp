@@ -41,6 +41,8 @@ extern "C" void app_main(void)
 
     leds.clear();
 
+    uint8_t savedColor[3] = {leds.getLedColor(0)[0],leds.getLedColor(0)[1],leds.getLedColor(0)[2]};
+
     if (!storage.loadLedConfig(config)) {
         leds.setBrightness(255);
         leds.setColor(0,0,0,0);
@@ -48,6 +50,9 @@ extern "C" void app_main(void)
         leds.setColor(2,0,0,0);
         leds.setColor(3,0,0,0);
         leds.startFadeToColor(255,255,255);
+        savedColor[0] = 255;
+        savedColor[1] = 255;
+        savedColor[2] = 255;
     } else {
         leds.setBrightness(config.brightness);
         leds.setColor(0,0,0,0);
@@ -58,9 +63,11 @@ extern "C" void app_main(void)
         float h, s, v;
         leds.rgbToHsv(config.r, config.g, config.b,h,s,v);
         hue = h/360.0f;
+        savedColor[0] = config.r;
+        savedColor[1] = config.g;
+        savedColor[2] = config.b;
     }
 
-    uint8_t savedColor[3] = {leds.getLedColor(0)[0],leds.getLedColor(0)[1],leds.getLedColor(0)[2]};
     leds.update(0);
 
     while (true) {
@@ -164,10 +171,12 @@ extern "C" void app_main(void)
         if (pins.isCharging() && !charging) { // check if charging
             savedMode = mode;
             const uint8_t* color = leds.getLedColor(0);
-            savedColor[0] = color[0];
-            savedColor[1] = color[1]; 
-            savedColor[2] = color[2];
-
+           
+            if (color[0] != 0 || color[1] != 0 || color[2] != 0) {
+                savedColor[0] = color[0];
+                savedColor[1] = color[1]; 
+                savedColor[2] = color[2];
+            }
             leds.startFadeToColor(0,255,0);
             mode = 2;
         }
