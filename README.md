@@ -176,7 +176,7 @@ Feedback, testing, and contributions are welcome.
 
 - [x] 0.1.0 | Basic functionality
 - [x] 0.2.0 | Storing led state
-- [ ] 0.3.0 | Serial communication
+- [x] 0.3.0 | Serial communication
 - [ ] 0.4.0 | Serial configuration
 - [ ] 0.5.0 | Rewrite/Refactoring for better performance
 - [ ] 0.6.0 | Permanent effects
