@@ -15,7 +15,7 @@ void Serial::update() {
     len = usb_serial_jtag_read_bytes(buf, sizeof(buf), 20 / portTICK_PERIOD_MS);
 }
 
-bool Serial::read(char* command) {
+bool Serial::read(const char* command) {
     if (len > 0) {
         if (len >= strlen(command) && memcmp(buf, command, strlen(command)) == 0) {
             return true;
@@ -24,6 +24,6 @@ bool Serial::read(char* command) {
     return false;
 }
 
-void Serial::write(char* output) {
+void Serial::write(const char* output) {
     usb_serial_jtag_write_bytes((const uint8_t *)output, strlen(output), portMAX_DELAY);
 }

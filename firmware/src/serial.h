@@ -11,8 +11,8 @@ private:
 public:
     Serial();
     void update();
-    bool read(char* command);
-    void write(char* output);
+    bool read(const char* command);
+    void write(const char* output);
 };
 
 #endif
