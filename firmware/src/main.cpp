@@ -180,6 +180,11 @@ extern "C" void app_main(void)
             mode = 2;
         }
 
+        if(serial.read("off")) {
+            ESP_LOGI("Frostlight", "Shuting device off");
+            shutdown = true;
+        }
+
         if(serial.read("version")) {
             ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
         }
