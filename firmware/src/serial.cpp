@@ -2,6 +2,19 @@
 #include <stdio.h>
 #include <string.h>
 #include "serial.h"
+#include <string>
+#include <vector>
+#include <ranges>
+
+std::vector<std::string> split(const std::string& s, char delim) {
+    std::vector<std::string> result;
+
+    for (auto part : std::views::split(s, delim)) {
+        result.emplace_back(part.begin(), part.end());
+    }
+
+    return result;
+}
 
 Serial::Serial(){
     usb_serial_jtag_driver_config_t config = {};
@@ -15,13 +28,16 @@ void Serial::update() {
     len = usb_serial_jtag_read_bytes(buf, sizeof(buf), 20 / portTICK_PERIOD_MS);
 }
 
-bool Serial::read(const char* command) {
-    if (len > 0) {
-        if (len >= strlen(command) && memcmp(buf, command, strlen(command)) == 0) {
-            return true;
-        }
+std::vector<std::string> Serial::read() {
+    if (len == 0) { return {}; }
+
+    if (len >= sizeof(buf)) {
+        len = sizeof(buf) - 1;
     }
-    return false;
+
+    buf[len] = '\0';
+    std::string input(reinterpret_cast<char*>(buf));
+    return split(input, ' ');
 }
 
 void Serial::write(const char* output) {

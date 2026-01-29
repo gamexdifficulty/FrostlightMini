@@ -180,25 +180,28 @@ extern "C" void app_main(void)
             mode = 2;
         }
 
-        if(serial.read("off")) {
-            ESP_LOGI("Frostlight", "Shuting device off");
-            shutdown = true;
-        }
+        auto tokens = serial.read();
+        if (!tokens.empty()) {
+            if(tokens[0] == "off") {
+                ESP_LOGI("Frostlight", "Shuting device off");
+                shutdown = true;
+            }
 
-        if(serial.read("version")) {
-            ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
-        }
+            if(tokens[0] == "version") {
+                ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
+            }
 
-        if(serial.read("color")) {
-            ESP_LOGI("Frostlight", "Color (RGB): %d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
-        }
+            if(tokens[0] == "color") {
+                ESP_LOGI("Frostlight", "Color (RGB): %d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
+            }
 
-        if(serial.read("brightness")) {
-            ESP_LOGI("Frostlight", "Brightness: %d", leds.getBrightness());
-        }
+            if(tokens[0] == "brightness") {
+                ESP_LOGI("Frostlight", "Brightness: %d", leds.getBrightness());
+            }
 
-        if(serial.read("battery")) {
-            ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false");
+            if(tokens[0] == "battery") {
+                ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false");
+            }
         }
 
         if (((!pins.isCharging() && charging) && mode == 2) || (interaction && mode > 1)) { // unplugged or interacted with
