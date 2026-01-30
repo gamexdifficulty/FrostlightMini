@@ -5,6 +5,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_timer.h"
+#include<iostream>
+#include<string>
 
 #include "pin.h"
 #include "leds.h"
@@ -185,6 +187,14 @@ extern "C" void app_main(void)
             if(tokens[0] == "off") {
                 ESP_LOGI("Frostlight", "Shuting device off");
                 shutdown = true;
+            }
+
+            if (tokens[0] == "set") {
+                if (tokens[1] == "brightness") {
+                    uint8_t brightness = stoi(tokens[2]);
+                    leds.setBrightness(brightness);
+                    ESP_LOGI("Frostlight", "Set Brightness to %d", brightness);
+                }
             }
 
             if(tokens[0] == "version") {
