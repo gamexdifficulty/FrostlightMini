@@ -183,17 +183,26 @@ extern "C" void app_main(void)
         }
 
         auto tokens = serial.read();
+        int tokenSize = tokens.size();
         if (!tokens.empty()) {
             if(tokens[0] == "off") {
                 ESP_LOGI("Frostlight", "Shuting device off");
                 shutdown = true;
             }
 
-            if (tokens[0] == "set") {
-                if (tokens[1] == "brightness") {
+            if (tokens[0] == "set" && tokenSize > 1) {
+                if (tokens[1] == "brightness" && tokenSize == 3) {
                     uint8_t brightness = stoi(tokens[2]);
                     leds.setBrightness(brightness);
                     ESP_LOGI("Frostlight", "Set Brightness to %d", brightness);
+                } else if (tokens[1] == "color" && tokenSize == 5) {
+                    uint8_t r = stoi(tokens[2]);
+                    uint8_t g = stoi(tokens[3]);
+                    uint8_t b = stoi(tokens[4]);
+                    for (int i=0; i<4; i++){
+                        leds.setColor(i,r,g,b);
+                    }
+                    ESP_LOGI("Frostlight", "Set Color to R:%d G:%d B:%d", r,g,b);
                 }
             }
 
