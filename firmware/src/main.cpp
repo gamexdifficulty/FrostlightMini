@@ -193,8 +193,12 @@ extern "C" void app_main(void)
             if (tokens[0] == "set" && tokenSize > 1) {
                 if (tokens[1] == "brightness" && tokenSize == 3) {
                     uint8_t brightness = stoi(tokens[2]);
-                    leds.setBrightness(brightness);
-                    ESP_LOGI("Frostlight", "Set Brightness to %d", brightness);
+                    if (brightness > 0) {
+                        leds.setBrightness(brightness);
+                        ESP_LOGI("Frostlight", "Set Brightness to %d", brightness);
+                    } else {
+                        ESP_LOGI("Frostlight", "Brightness must be between 1 and 255");
+                    }
                 } else if (tokens[1] == "color" && tokenSize == 5) {
                     uint8_t r = stoi(tokens[2]);
                     uint8_t g = stoi(tokens[3]);
