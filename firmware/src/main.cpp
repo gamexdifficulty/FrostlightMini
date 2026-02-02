@@ -204,10 +204,14 @@ extern "C" void app_main(void)
                     uint8_t r = stoi(tokens[2]);
                     uint8_t g = stoi(tokens[3]);
                     uint8_t b = stoi(tokens[4]);
-                    for (int i=0; i<4; i++){
-                        leds.setColor(i,r,g,b);
+                    if (r == 0 && b == 0 && b == 0) {
+                        ESP_LOGI("Frostlight", "Color must not be 0 0 0!");
+                    } else {
+                        for (int i=0; i<4; i++){
+                            leds.setColor(i,r,g,b);
+                        }
+                        ESP_LOGI("Frostlight", "Set Color to R:%d G:%d B:%d", r,g,b);
                     }
-                    ESP_LOGI("Frostlight", "Set Color to R:%d G:%d B:%d", r,g,b);
                 }
             }
 
