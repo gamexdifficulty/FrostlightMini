@@ -215,20 +215,16 @@ extern "C" void app_main(void)
                 }
             }
 
-            if(tokens[0] == "version") {
-                ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
-            }
-
-            if(tokens[0] == "color") {
-                ESP_LOGI("Frostlight", "Color (RGB): %d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
-            }
-
-            if(tokens[0] == "brightness") {
-                ESP_LOGI("Frostlight", "Brightness: %d", leds.getBrightness());
-            }
-
-            if(tokens[0] == "battery") {
-                ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false");
+            if (tokens[0] == "get" && tokenSize > 1) {
+                if(tokens[1] == "version") {
+                    ESP_LOGI("Frostlight", "%s", firmwareVersion);
+                } else if(tokens[1] == "color") {
+                    ESP_LOGI("Frostlight", "%d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
+                } else if(tokens[1] == "brightness") {
+                    ESP_LOGI("Frostlight", "%d", leds.getBrightness());
+                } else if(tokens[1] == "battery") {
+                    ESP_LOGI("Frostlight", "%.3f, %d, %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false"); // voltage, percentage, charging 
+                }
             }
         }
 
