@@ -2,6 +2,7 @@
 #define _PIN_H_
 
 #include <cstdint>
+#include "driver/temperature_sensor.h"
 
 class Pin {
 private:
@@ -17,6 +18,7 @@ private:
     uint32_t button1HeldStartTimer = 0;
     uint32_t button2HeldStartTimer = 0;
     uint32_t batteryMonitoringTimer = 0;
+    temperature_sensor_handle_t temp_handle = NULL;
     
 public:
     Pin();
@@ -27,6 +29,7 @@ public:
     float getADC();
     bool isCharging();
     int getBatteryPercentage();
+    float getChipTemperature();
 
     bool getButton1Pressed();
     bool getButton2Pressed();
