@@ -222,7 +222,9 @@ extern "C" void app_main(void)
                     ESP_LOGI("Frostlight", "%d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
                 } else if(tokens[1] == "brightness") {
                     ESP_LOGI("Frostlight", "%d", leds.getBrightness());
-                } else if(tokens[1] == "temperature") {    
+                } else if(tokens[1] == "effectcount") {    
+                    ESP_LOGI("Frostlight", "%d", leds.getEffectCount());
+                }else if(tokens[1] == "temperature") {    
                     ESP_LOGI("Frostlight", "%.3f", pins.getChipTemperature());
                 } else if(tokens[1] == "battery") {
                     ESP_LOGI("Frostlight", "%.3f, %d, %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false"); // voltage, percentage, charging 
