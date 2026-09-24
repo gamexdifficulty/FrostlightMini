@@ -228,6 +228,26 @@ extern "C" void app_main(void)
                     ESP_LOGI("Frostlight", "%.3f", pins.getChipTemperature());
                 } else if(tokens[1] == "battery") {
                     ESP_LOGI("Frostlight", "%.3f, %d, %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false"); // voltage, percentage, charging 
+                } else if(tokens[1] == "remaining") {
+                    float brightness = leds.getBrightness() / 255.0f;
+
+                    float r = (leds.getLedColor(0)[0] / 255.0f) * brightness;
+                    float g = (leds.getLedColor(0)[1] / 255.0f) * brightness;
+                    float b = (leds.getLedColor(0)[2] / 255.0f) * brightness;
+
+                    float red   = 20.0f * r;
+                    float green = 20.0f * g;
+                    float blue  = 20.0f * b;
+
+                    float current = (red + green + blue) * 4.0f;
+
+                    float remaining = 0.0f;
+                    if (current > 0.001f) {
+                        remaining = (2000.0f / current) * (pins.getBatteryPercentage() / 100.0f);
+                    }
+
+                    ESP_LOGI("Frostlight", "%.3f %.3f", remaining, current); // hours, current in mAh
+
                 }
             }
         }
