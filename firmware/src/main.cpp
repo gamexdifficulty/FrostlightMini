@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <cmath>
-#include "esp_log.h"
 #include <algorithm>
+#include <iostream>
+#include <string>
+
+#include "esp_log.h"
+#include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "esp_timer.h"
 
 #include "pin.h"
 #include "leds.h"
@@ -16,7 +19,7 @@ static const uint16_t SHORT_PRESS = 350;
 
 extern "C" void app_main(void)
 {
-    const char* firmwareVersion = "0.3.0";
+    const char* firmwareVersion = "0.4.0";
 
     Pin pins;
     Leds leds;
@@ -180,20 +183,73 @@ extern "C" void app_main(void)
             mode = 2;
         }
 
-        if(serial.read("version")) {
-            ESP_LOGI("Frostlight", "Firmware Version: %s", firmwareVersion);
-        }
+        auto tokens = serial.read();
+        int tokenSize = tokens.size();
+        if (!tokens.empty()) {
+            if(tokens[0] == "off") {
+                ESP_LOGI("Frostlight", "Shuting device off");
+                shutdown = true;
+            }
 
-        if(serial.read("color")) {
-            ESP_LOGI("Frostlight", "Color (RGB): %d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
-        }
+            if (tokens[0] == "set" && tokenSize > 1) {
+                if (tokens[1] == "brightness" && tokenSize == 3) {
+                    uint8_t brightness = stoi(tokens[2]);
+                    if (brightness > 0) {
+                        leds.setBrightness(brightness);
+                        ESP_LOGI("Frostlight", "Set Brightness to %d", brightness);
+                    } else {
+                        ESP_LOGI("Frostlight", "Brightness must be between 1 and 255");
+                    }
+                } else if (tokens[1] == "color" && tokenSize == 5) {
+                    uint8_t r = stoi(tokens[2]);
+                    uint8_t g = stoi(tokens[3]);
+                    uint8_t b = stoi(tokens[4]);
+                    if (r == 0 && b == 0 && b == 0) {
+                        ESP_LOGI("Frostlight", "Color must not be 0 0 0!");
+                    } else {
+                        for (int i=0; i<4; i++){
+                            leds.setColor(i,r,g,b);
+                        }
+                        ESP_LOGI("Frostlight", "Set Color to R:%d G:%d B:%d", r,g,b);
+                    }
+                }
+            }
 
-        if(serial.read("brightness")) {
-            ESP_LOGI("Frostlight", "Brightness: %d", leds.getBrightness());
-        }
+            if (tokens[0] == "get" && tokenSize > 1) {
+                if(tokens[1] == "version") {
+                    ESP_LOGI("Frostlight", "%s", firmwareVersion);
+                } else if(tokens[1] == "color") {
+                    ESP_LOGI("Frostlight", "%d, %d, %d", leds.getLedColor(0)[0], leds.getLedColor(0)[1], leds.getLedColor(0)[2]);
+                } else if(tokens[1] == "brightness") {
+                    ESP_LOGI("Frostlight", "%d", leds.getBrightness());
+                } else if(tokens[1] == "effectcount") {    
+                    ESP_LOGI("Frostlight", "%d", leds.getEffectCount());
+                }else if(tokens[1] == "temperature") {    
+                    ESP_LOGI("Frostlight", "%.3f", pins.getChipTemperature());
+                } else if(tokens[1] == "battery") {
+                    ESP_LOGI("Frostlight", "%.3f, %d, %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false"); // voltage, percentage, charging 
+                } else if(tokens[1] == "remaining") {
+                    float brightness = leds.getBrightness() / 255.0f;
 
-        if(serial.read("battery")) {
-            ESP_LOGI("Frostlight", "Battery voltage: %.3f | Battery charge percentage: %d | Charging: %s", pins.getADC(), pins.getBatteryPercentage(), pins.isCharging() ? "true" : "false");
+                    float r = (leds.getLedColor(0)[0] / 255.0f) * brightness;
+                    float g = (leds.getLedColor(0)[1] / 255.0f) * brightness;
+                    float b = (leds.getLedColor(0)[2] / 255.0f) * brightness;
+
+                    float red   = 20.0f * r;
+                    float green = 20.0f * g;
+                    float blue  = 20.0f * b;
+
+                    float current = (red + green + blue) * 4.0f;
+
+                    float remaining = 0.0f;
+                    if (current > 0.001f) {
+                        remaining = (2000.0f / current) * (pins.getBatteryPercentage() / 100.0f);
+                    }
+
+                    ESP_LOGI("Frostlight", "%.3f %.3f", remaining, current); // hours, current in mAh
+
+                }
+            }
         }
 
         if (((!pins.isCharging() && charging) && mode == 2) || (interaction && mode > 1)) { // unplugged or interacted with

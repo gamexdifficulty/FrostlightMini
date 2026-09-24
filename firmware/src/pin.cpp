@@ -3,6 +3,7 @@
 
 #include "driver/gpio.h"
 #include "driver/adc.h"
+#include "driver/temperature_sensor.h"
 #include "esp_adc_cal.h"
 #include "esp_log.h"
 
@@ -61,6 +62,16 @@ Pin::Pin() {
         ADC_WIDTH,
         DEFAULT_VREF,
         &adc_chars);
+
+    /* Temperature setup */
+    temp_handle = NULL;
+    temperature_sensor_config_t temp_sensor = {
+        .range_min = -10,
+        .range_max = 80,
+    };
+    ESP_ERROR_CHECK(temperature_sensor_install(&temp_sensor, &temp_handle));
+    ESP_ERROR_CHECK(temperature_sensor_enable(temp_handle));
+
 }
 
 void Pin::update(uint32_t timer) {
@@ -127,6 +138,12 @@ int Pin::getBatteryPercentage() {
     if (percent < 0) percent = 0;
     
     return percent;
+}
+
+float Pin::getChipTemperature() {
+    float tsens_out = 0;
+    temperature_sensor_get_celsius(temp_handle, &tsens_out);
+    return tsens_out;
 }
 
 bool Pin::isCharging() { return gpio_get_level(CHRG_GPIO) == 0; }

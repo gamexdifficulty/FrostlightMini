@@ -2,6 +2,8 @@
 #define _SERIAL_H_
 
 #include <cstdint>
+#include <vector>
+#include <string>
 
 class Serial
 {
@@ -11,7 +13,7 @@ private:
 public:
     Serial();
     void update();
-    bool read(const char* command);
+    std::vector<std::string> read();
     void write(const char* output);
 };
 
