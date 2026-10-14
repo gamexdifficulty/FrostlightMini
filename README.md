@@ -1,21 +1,22 @@
 <p align="center">
-  <img src="images/frostlightmini.svg" alt="FrostlightMini Logo" width="120" height="120">
+<img src="images/frostlightmini.svg" alt="FrostlightMini Logo" width="120" height="120">
 </p>
 
-<h1 align="center" id="title">FrostlightMini</h1>
+<h1 align="center" id="title">Frostlight L.A.M.P OS</h1>
 
+<p>L.A.M.P OS = Light Automation, Manipulation and Programming OS</p>
 <p align="center" id="description">
-  A very small battery powered open source LED lamp.
+A very small battery powered open source LED lamp.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platformio-gray?logo=platformio" alt="platformio">
-  <img src="https://img.shields.io/github/stars/gamexdifficulty/FrostlightMini?style=social" alt="GitHub Stars">
-  <img src="https://img.shields.io/github/license/gamexdifficulty/FrostlightMini" alt="License">
-  <img src="https://img.shields.io/github/last-commit/gamexdifficulty/FrostlightMini" alt="Last Commit">
-  <img src="https://img.shields.io/github/repo-size/gamexdifficulty/FrostlightMini" alt="Repo Size">
-  <img src="https://img.shields.io/github/issues/gamexdifficulty/FrostlightMini" alt="Open Issues">
-  <img src="https://img.shields.io/github/contributors/gamexdifficulty/FrostlightMini" alt="Contributors">
+<img src="https://img.shields.io/badge/platformio-gray?logo=platformio" alt="platformio">
+<img src="https://img.shields.io/github/stars/gamexdifficulty/FrostlightMini?style=social" alt="GitHub Stars">
+<img src="https://img.shields.io/github/license/gamexdifficulty/FrostlightMini" alt="License">
+<img src="https://img.shields.io/github/last-commit/gamexdifficulty/FrostlightMini" alt="Last Commit">
+<img src="https://img.shields.io/github/repo-size/gamexdifficulty/FrostlightMini" alt="Repo Size">
+<img src="https://img.shields.io/github/issues/gamexdifficulty/FrostlightMini" alt="Open Issues">
+<img src="https://img.shields.io/github/contributors/gamexdifficulty/FrostlightMini" alt="Contributors">
 </p>
 
 > ⚠️ This lamp is still work in progress and not a final product.
@@ -26,7 +27,7 @@ FrostlightMini is a hand sized RGB LED lamp based on a custom PCB with an ESP32-
 It can be used as a night light, party light, or small IoT device.
 
 <p align="center">
-  <img src="images/frostlightmini-green.jpg" alt="FrostlightMini Green" width="30%" height="30%">
+<img src="images/frostlightmini-green.jpg" alt="FrostlightMini Green" width="30%" height="30%">
 </p>
 
 The project is fully open source and includes firmware, hardware design files, and documentation.
@@ -35,21 +36,21 @@ The project is fully open source and includes firmware, hardware design files, a
 
 <table>
 <tr>
-    <td width="60%" valign="top">
+<td width="60%" valign="top">
 
-* Custom PCB  
-* ESP32-C3 microcontroller with WiFi, ZigBee and Bluetooth  
-* RGB LED  
-* Battery powered  
-* USB-C for charging and programming  
-* Two physical buttons for control  
+* Custom PCB
+* ESP32-C3 microcontroller with WiFi, ZigBee and Bluetooth
+* RGB LED
+* Battery powered
+* USB-C for charging and programming
+* Two physical buttons for control
 
-    </td>
-    <td width="40%" align="center">
-        <img src="images/frostlightmini-blue.jpg" alt="FrostlightMini Blue" width="100%">
-    </td>
-</tr>
-</table>
+  </td>
+  <td width="40%" align="center">
+  <img src="images/frostlightmini-blue.jpg" alt="FrostlightMini Blue" width="100%">
+  </td>
+  </tr>
+  </table>
 
 ## 💡 Modes
 
@@ -57,14 +58,13 @@ FrostlightMini currently supports two operating modes:
 
 * **Color Mode**
   Used to select and cycle through colors
-
 * **Brightness Mode**
   Used to increase or decrease LED brightness
 
 The lamp boots into **Color Mode** by default.
 
 <p align="left">
-  <img src="images/frostlightmini-red.jpg" alt="FrostlightMini Red" width="30%" height="30%">
+<img src="images/frostlightmini-red.jpg" alt="FrostlightMini Red" width="30%" height="30%">
 </p>
 
 ## 🎮 Controls
@@ -75,18 +75,18 @@ Button behavior depends on the currently active mode.
 ### Button Overview
 
 | Button   | Purpose                     |
-| -------- | --------------------------- |
+|----------|-----------------------------|
 | Button 1 | Mode switching and power    |
 | Button 2 | Color or brightness control |
 
 ### Button 1, Mode & Power
 
 <p align="left">
-  <img src="images/frostlightmini-button-1.svg" alt="Button 1" width="120" height="120">
+<img src="images/frostlightmini-button-1.svg" alt="Button 1" width="120" height="120">
 </p>
 
 | Action         | Effect                                                |
-| -------------- | ----------------------------------------------------- |
+|----------------|-------------------------------------------------------|
 | Short press    | Switch between **Color Mode** and **Brightness Mode** |
 | Hold ~1 second | Turn the lamp off                                     |
 
@@ -99,13 +99,13 @@ Additional behavior:
 ### Button 2, Mode Action Button
 
 <p align="left">
-  <img src="images/frostlightmini-button-2.svg" alt="Button 2" width="120" height="120">
+<img src="images/frostlightmini-button-2.svg" alt="Button 2" width="120" height="120">
 </p>
 
 #### In Color Mode
 
 | Action      | Effect                            |
-| ----------- | --------------------------------- |
+|-------------|-----------------------------------|
 | Short press | Switch directly to white          |
 | Hold        | Cycle continuously through colors |
 
@@ -114,7 +114,7 @@ If the current color is white, holding the button starts cycling from red.
 #### In Brightness Mode
 
 | Action      | Effect                                                   |
-| ----------- | -------------------------------------------------------- |
+|-------------|----------------------------------------------------------|
 | Short press | Toggle between brightness increase and decrease          |
 | Hold        | Continuously adjust brightness in the selected direction |
 
@@ -128,7 +128,7 @@ Additional behavior:
 When the lamp is connected to power via USB-C, it enters a charging indicator mode.
 
 | State         | Indicator           | How to exit                            |
-| ------------- | ------------------- | -------------------------------------- |
+|---------------|---------------------|----------------------------------------|
 | Charging      | Green pulsing light | Unplug USB-C or short-press any button |
 | Fully charged | Blue pulsing light  | Short-press any button                 |
 
@@ -179,7 +179,22 @@ Feedback, testing, and contributions are welcome.
 - [x] 0.3.0 | Serial communication
 - [x] 0.4.0 | Serial configuration
 - [ ] 0.5.0 | Rewrite/Refactoring for better performance
+  - [ ] Identification via MAC-Address, name, blink pattern
+  - [ ] Button mapping
+  - [ ] Presets
+  - [ ] Battery low effect
+  - [ ] Runtime timer
+  - [ ] Night timer
+  - [ ] Time Alert/Alarm
+  - [ ] *Notification Alert
+  - [ ] OTA
+  - [ ] Cable Updates
+  - [ ] Timed Services (Check charge every 1 min)
+  - [ ] Travel Modus
 - [ ] 0.6.0 | Permanent effects
+  - [ ] Candles
+  - [ ] Time based color transition
+  - [ ] Pulse/Breath
 - [ ] 0.7.0 | Desktop app
 - [ ] 0.8.0 | Wireless communication
 - [ ] 0.9.0 | Device synchronization
