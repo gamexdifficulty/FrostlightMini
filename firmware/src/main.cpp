@@ -19,7 +19,7 @@ static const uint16_t SHORT_PRESS = 350;
 
 extern "C" void app_main(void)
 {
-    const char* firmwareVersion = "0.4.1";
+    const char* firmwareVersion = "0.4.2";
 
     Pin pins;
     Leds leds;
@@ -89,7 +89,7 @@ extern "C" void app_main(void)
         if (pins.getButton1Released() || pins.getButton2Released()) { interaction = true; } else { interaction = false; }
         if (pins.getButton1Released() && pins.getButton1HeldTimer() >= 1000) { shutdown = true; }
         if (pins.getButton1Released() && pins.getButton1HeldTimer() <= SHORT_PRESS) {
-            if (mode < 2 && !charging && interaction) {
+            if (mode < 2 && interaction) {
                 mode = mode == 0 ? 1 : 0;
                 if (mode == 0) {
                     leds.startColorWheel();
