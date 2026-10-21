@@ -19,7 +19,7 @@ static const uint16_t SHORT_PRESS = 350;
 
 extern "C" void app_main(void)
 {
-    const char* firmwareVersion = "0.4.0";
+    const char* firmwareVersion = "0.4.1";
 
     Pin pins;
     Leds leds;
@@ -200,6 +200,13 @@ extern "C" void app_main(void)
                     } else {
                         ESP_LOGI("Frostlight", "Brightness must be between 1 and 255");
                     }
+
+                    config.r = leds.getLedColor(0)[0];
+                    config.g = leds.getLedColor(0)[1];
+                    config.b = leds.getLedColor(0)[2];
+                    config.brightness = leds.getBrightness();
+                    storage.saveLedConfig(config);
+                    
                 } else if (tokens[1] == "color" && tokenSize == 5) {
                     uint8_t r = stoi(tokens[2]);
                     uint8_t g = stoi(tokens[3]);
@@ -212,6 +219,12 @@ extern "C" void app_main(void)
                         }
                         ESP_LOGI("Frostlight", "Set Color to R:%d G:%d B:%d", r,g,b);
                     }
+
+                    config.r = leds.getLedColor(0)[0];
+                    config.g = leds.getLedColor(0)[1];
+                    config.b = leds.getLedColor(0)[2];
+                    config.brightness = leds.getBrightness();
+                    storage.saveLedConfig(config);
                 }
             }
 
