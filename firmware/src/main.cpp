@@ -19,7 +19,7 @@ static const uint16_t SHORT_PRESS = 350;
 
 extern "C" void app_main(void)
 {
-    const char* firmwareVersion = "0.4.1";
+    const char* firmwareVersion = "0.4.2";
 
     Pin pins;
     Leds leds;
